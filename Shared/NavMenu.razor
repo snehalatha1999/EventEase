@@ -1,0 +1,9 @@
+@inject EventEase.Services.UserSessionService Session
+
+<nav class="nav flex-column">
+    <NavLink href="/events" class="nav-link">Events</NavLink>
+    @if (!string.IsNullOrEmpty(Session.UserName))
+    {
+        <div class="text-success mt-2">Welcome, @Session.UserName</div>
+    }
+</nav>

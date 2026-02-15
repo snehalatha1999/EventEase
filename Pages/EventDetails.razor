@@ -1,0 +1,43 @@
+@page "/event/{Id:int}"
+@inject EventEase.Services.EventService EventService
+@inject EventEase.Services.UserSessionService Session
+
+<h3>Event Details</h3>
+
+@if (selectedEvent == null)
+{
+    <div class="alert alert-warning">Event not found.</div>
+}
+else
+{
+    <p><strong>Name:</strong> @selectedEvent.EventName</p>
+    <p><strong>Date:</strong> @selectedEvent.Date.ToShortDateString()</p>
+    <p><strong>Location:</strong> @selectedEvent.Location</p>
+
+    @if (Session.IsRegistered(selectedEvent.Id))
+    {
+        <div class="alert alert-info">You are registered for this event.</div>
+    }
+    else
+    {
+        <NavLink class="btn btn-success" href="@($"/register/{selectedEvent.Id}")">
+            Register
+        </NavLink>
+    }
+
+    <p class="mt-3"><strong>Total Attendees:</strong> 
+       @Session.RegisteredEventIds.Count(id => id == selectedEvent.Id)
+    </p>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Event? selectedEvent;
+
+    protected override void OnParametersSet()
+    {
+        selectedEvent = EventService.Events.FirstOrDefault(e => e.Id == Id);
+    }
+}

@@ -1,0 +1,16 @@
+@page "/events"
+@inject EventEase.Services.EventService EventService
+
+<h3>Upcoming Events</h3>
+
+@if (EventService.Events == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @foreach (var evt in EventService.Events.Take(50))
+    {
+        <EventCard @key="evt.Id" EventItem="evt" />
+    }
+}

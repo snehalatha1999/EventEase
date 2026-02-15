@@ -1,0 +1,17 @@
+@using EventEase.Models
+@if (EventItem != null)
+{
+    <div class="card p-3 mb-3 shadow-sm">
+        <h4>@(EventItem.EventName ?? "Unnamed Event")</h4>
+        <p><strong>Date:</strong> @EventItem.Date.ToShortDateString()</p>
+        <p><strong>Location:</strong> @(EventItem.Location ?? "TBD")</p>
+        <NavLink class="btn btn-primary" href="@($"/event/{EventItem.Id}")">
+            View Details
+        </NavLink>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Event? EventItem { get; set; }
+}
